@@ -1,0 +1,7 @@
+/.quarto/
+/_site/
+/_freeze/
+.DS_Store
+/_site/site_libs
+/_site/posts
+/site_libs/clipboard

@@ -1,0 +1,133 @@
+---
+title: "Post With Code"
+author: "Harlow Malloc"
+date: "2024-09-05"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+This is a post with executable code.
+
+## Keeping Gradients Healthy
+
+### Gradient Attenuation and Techniques
+
+- The maximum value of the derivative of the logistic sigmoid function is 0.25, so the error will always be attenuated as it is passed backward through the network.
+- To keep neurons from their saturated regions, techniques such as initializing weights with Glorot or He initialization and using batch normalization are recommended.
+### Non-saturating Nonlinear Functions
+
+- Instead of trying to keep neurons out of their saturated regions, another solution is to use non-saturating nonlinear functions like leaky ReLU or regular ReLU, which only saturates on one side.
+
+### Mitigating Gradient Issues
+
+- Batch Normalization helps avoid vanishing gradients, while gradient clipping addresses exploding gradients by clipping the gradient itself during the backward pass.
+- The challenges of vanishing and exploding gradients apply to both fully-connected feedforward networks and RNNs, with RNNs having unique properties and mitigation techniques.
+## Summary of Techniques Used To Maintain Gradient Health
+
+
+| Technique                                 | Mitigates<br>Vanishing<br>Gradient | Mitigates<br>Exploding<br>Gradients | Notes                                                                                                              |
+| ----------------------------------------- | ---------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Use Glorot or He<br>Weight Initialization | Yes                                | No                                  | Applies to all<br>neurons                                                                                          |
+| Batch Normalization                       | Yes                                | No                                  | Applies to hidden<br>neurons                                                                                       |
+| Non-saturating<br>Neural such as<br>ReLU  | Yes                                | No                                  | Applies to all<br>neurons but output<br>layer is typically<br>considered<br>separately in light<br>of problem type |
+| Gradient Clipping                         | No                                 | Yes                                 | Applies to all<br>neurons                                                                                          |
+| Constant Error<br>Carousel                | Yes                                | Yes                                 | Applies only to<br>recurrent layers;<br>used by LSTM                                                               |
+| Skip Connections                          | Yes                                | No                                  | Can provide<br>additional benefits<br>(detailed in later<br>discussion of<br>ReNets)
+                               |
+### Challenges Specific to RNNs
+- Even when the activation function such as ReLU does not inherently cause problems (with a constant derivative of 1), RNNs face the unique challenge of Backpropagation Through Time (BPTT), where error is multiplied by the same weight repeatedly due to weight sharing across timesteps.
+- With a large number of timesteps, the only way to avoid vanishing and exploding gradients is to use weights with a value of 1, which essentially defeats the purpose of having adjustable weights.
+- The constant error carousel (CEC) is a technique that results in behavior similar to having weight values of 1 during backpropagation.
+- LSTM Networks are designed based on and implement the CEC technique.
+
+## Introduction to LSTM Networks
+
+### Overview of LSTM
+- LSTM (Long Short-Term Memory) is a complex unit, also known as a cell, which replaces simple neurons in RNNs, known for its gated mechanism.
+
+### Functionality of LSTM Cells
+
+- An LSTM cell utilizes gates alongside traditional activation functions to prevent gradients from vanishing or exploding.
+- It can maintain values for long periods, allowing selective memory retention through mechanisms like remember and forget gates.
+
+### Gates and Memory Control
+
+- The remember gate enables the network to control when to remember an input, and the forget gate allows it to discard irrelevant information.
+- An output gate determines whether the retained value impacts the cell's output.
+- An LSTM cell contains approximately four times as many weights as a simple neuron in an RNN.
+## Summary of The Behavior of an LSTM Cell
+
+### Internal Dynamics of LSTM
+
+- Each cell has an internal state that gets updated each timestep.
+- The update process involves a weighted sum of the internal state from the previous timestep and the input activation function for the current timestep.
+- Gates dynamically control the weights based on the inputs, which consist of outputs from the previous layer and outputs from the current layer from the previous timestep.
+- The output of the LSTM layer is derived by processing the internal state through the output activation function and then multiplying it by another gate.
+- All gates are controlled by a concatenation of the current and previous outputs.
+## Alternative View of LSTM
+
+### Layer versus Unit Perspective
+
+- Often, LSTM is thought of in terms of entire layers rather than individual units, where a cell refers to an entire layer of units.
+## Highway Networks & Skip Connections
+
+### Introduction to Skip Connections
+
+- Skip connections in ResNets were introduced to tackle the problem of non-learning networks, which was not caused by vanishing gradients but rather by the difficulty in finding the right learning path.
+- Initially used in various settings to address vanishing gradients, skip connections now serve to provide shortcuts that allow gradients to flow unchanged.
+### Relation to LSTM and Highway Networks
+
+- Similar to the CEC in LSTMs, skip connections in regular feedforward networks allow for uninterrupted gradient flow during the backward pass.
+- Highway Networks incorporate these principles with adjustable contributions from both regular and skip connections using gates inspired by LSTM.
+
+## Concluding Remarks on LSTM
+
+### Evolution and Simplification
+
+- The Gated Recurrent Unit (GRU), introduced as a simplification over the LSTM, combines the forget and remember gates into a single update gate and lacks an internal cell state.
+- Exploring variations like adding peephole connections to the LSTM or further simplifying the GRU design shows the adaptability and potential for innovation in gated units.
+
+### Broader Implications
+
+- The detailed exploration of LSTM and GRU reveals that these designs are not definitive, suggesting the possibility of further variations in gated units.
+
+```python
+async def select_document_from_results(search_results):
+    """Allow user to select a document from the search results."""
+    if not search_results:
+        await cl.Message(content="No Search Results Found").send()
+        return None
+
+    message_content = "### Please Enter the Number Corresponding to Your Desired Paper\n"
+    message_content += "| No. | Paper Title | Doc. ID |\n"
+    message_content += "|-----|-------------|---------|\n"
+
+    for i, doc in enumerate(search_results, start=1):
+        page_content = doc.page_content
+        document_id = doc.metadata['document_id']
+        message_content += f"| {i} | {page_content} | {document_id} |\n"
+
+    await cl.Message(content=message_content).send()
+
+    while True:
+        res = await cl.AskUserMessage(content="", timeout=3600).send()
+        if res:
+            try:
+                user_choice = int(res['output']) - 1
+                if 0 <= user_choice < len(search_results):
+                    selected_doc_id = search_results[user_choice].metadata['document_id']
+                    selected_paper_title = search_results[user_choice].page_content
+                    await cl.Message(content=f"\n**You selected:** {selected_paper_title}").send()
+                    return selected_doc_id
+                else:
+                    await cl.Message(content="\nInvalid Selection. Please enter a valid number from the list.").send()
+            except ValueError:
+                await cl.Message(content="\nInvalid input. Please enter a number.").send()
+        else:
+            await cl.Message(content="\nNo selection made. Please enter a valid number from the list.").send()
+
+```
+
+::: callout-tip
+You can say your tip here!
+:::

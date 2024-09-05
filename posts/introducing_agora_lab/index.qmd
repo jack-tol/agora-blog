@@ -1,6 +1,6 @@
 ---
-title: "Introducing Agora Lab: Pioneering AI for the Benefit of Humanity"
-description: "Discover Agora Lab's mission, guiding principles, and a wide range of AI projects, advancing collective intelligence and high-performance model development."
+title: "Introducing Agora Lab: Our Mission, Core Principles, and Diverse AI Projects"
+description: "Exploring how Agora Lab is advancing AI through high-quality, open-source research, cutting-edge projects, and a commitment to driving innovation that benefits society as a whole."
 author: "Kye Gomez"
 date: "2024-09-03"
 categories: [AI, open-source, research, multi-modal learning, collective intelligence]

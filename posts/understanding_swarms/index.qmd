@@ -17,7 +17,7 @@ As AI continues to evolve, one of the most promising areas of development is the
 
 Rather than relying on a single AI system to handle everything, Swarms introduces a way for **multiple intelligent agents** to work together seamlessly, each specializing in different aspects of a task, but coordinating like a well-oiled machine. Whether you're managing logistics, building large-scale data models, or automating workflows, Swarms provides a robust infrastructure for orchestrating this collective intelligence.
 
-### .1 | What Makes Swarms Different?
+### 1.1 | What Makes Swarms Different?
 
 In the world of AI, most systems are designed to operate in isolation, handling specific tasks independently. Swarms, on the other hand, enables **coordination between agents** on a large scale, allowing them to work together on tasks that would be too complex or time-consuming for a single agent to manage.
 

@@ -1,19 +1,25 @@
 ---
 title: "About"
-image: profile.jpg
+image: profile.png
 about:
-  template: jolla
+  template: marquee
   links:
     - icon: twitter
       text: Twitter
-      href: https://twitter.com
+      href: https://twitter.com/apac_ai
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://www.linkedin.com/in/kye-g-38759a207/
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/Agora-X
 
 ---
 
-About this blog
+Agora Lab is an open-source collective of AI researchers and engineers dedicated to advancing artificial intelligence for the betterment of humanity. Guided by core principles such as **Humanity First**, open collaboration, and a focus on high-impact projects, Agora is pushing the boundaries of AI in areas like **multi-modal learning**, **adaptability**, and **collaborative intelligence**.
+
+Our research is open-source, making it accessible for anyone to explore, contribute, or build upon. While core project development is managed by a dedicated team, we welcome community involvement through pull requests, feedback, and forks of our work.
+
+Key projects include **Swarms**, a system enabling multiple AI agents to collaborate on complex tasks, and **Zeta**, a modular AI development framework designed for high-performance and efficiency across multiple modalities.
+
+To connect with our community, join our [Discord](https://discord.com/invite/t5QxhyvUG9). If you're interested in joining the Agora Research team, contact Kye Gomez at kye@swarms.world.

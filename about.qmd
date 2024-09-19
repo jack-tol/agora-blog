@@ -6,7 +6,7 @@ about:
   links:
     - icon: twitter
       text: Twitter
-      href: https://twitter.com/apac_ai
+      href: https://x.com/AgoraLabAI
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/kye-g-38759a207/

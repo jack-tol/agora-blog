@@ -1,6 +1,6 @@
 # Agora Lab Blog
 
-Welcome to the **Agora Lab Blog**! This is an open-source platform where anyone can contribute their insights, research, and thoughts on artificial intelligence and related fields. Our goal is to build a rich resource of knowledge that reflects the vibrant community around AI.
+Welcome to the **Agora Lab Blog**! This is an open-source platform where anyone can contribute their insights, research, and thoughts on artificial intelligence & machine learning. Our goal is to build a rich resource of knowledge that reflects the vibrant community around AI.
 
 ## How to Contribute
 
